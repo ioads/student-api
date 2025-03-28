@@ -54,4 +54,12 @@ class AlunoController extends Controller
     {
         return $this->alunoRepository->delete($id);
     }
+
+    /**
+     * Display a total of the student grouping by gender and class.
+     */
+    public function alunosPorFaixaEtaria()
+    {
+        return $this->alunoRepository->alunosPorFaixaEtaria();
+    }
 }

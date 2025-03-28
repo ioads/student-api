@@ -13,3 +13,5 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('alunos', AlunoController::class);
 Route::apiResource('cursos', CursoController::class);
 Route::apiResource('matriculas', MatriculaController::class);
+
+Route::get('/relatorio-alunos-faixa-etaria', [AlunoController::class, 'alunosPorFaixaEtaria']);

@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Aluno;
+use App\Models\Matricula;
 use App\Repositories\AlunoRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class AlunoRepository implements AlunoRepositoryInterface
 {
@@ -70,5 +72,42 @@ class AlunoRepository implements AlunoRepositoryInterface
         $aluno->delete();
 
         return response()->json(['message' => 'Aluno excluído com sucesso'], 200);
+    }
+
+    public function alunosPorFaixaEtaria()
+    {
+        $faixasEtarias = [
+            'menor_que_15' => [0, 14],
+            'entre_15_e_18' => [15, 18],
+            'entre_19_e_24' => [19, 24],
+            'entre_25_e_30' => [25, 30],
+            'maior_que_30' => [31, 999],
+        ];
+    
+        $result = [];
+    
+        foreach ($faixasEtarias as $key => $faixa) {
+            $result[$key] = Matricula::selectRaw('
+                    matriculas.curso_id, 
+                    cursos.titulo as curso_titulo, 
+                    alunos.sexo, 
+                    count(*) as total
+                ')
+                ->join('alunos', 'alunos.id', '=', 'matriculas.aluno_id')
+                ->join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
+                ->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, alunos.data_nascimento, CURDATE())'), $faixa)
+                ->groupBy('matriculas.curso_id', 'alunos.sexo', 'cursos.titulo')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'curso_id' => $item->curso_id,
+                        'curso_titulo' => $item->curso_titulo,
+                        'sexo' => $item->sexo,
+                        'total' => $item->total,
+                    ];
+                });
+        }
+    
+        return response()->json($result, 200);
     }
 }
