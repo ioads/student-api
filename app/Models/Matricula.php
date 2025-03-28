@@ -15,4 +15,14 @@ class Matricula extends Model
         'status',
         'observacoes'
     ];
+
+    public function aluno()
+    {
+        return $this->belongsTo(Aluno::class, 'aluno_id');
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class, 'curso_id');
+    }
 }

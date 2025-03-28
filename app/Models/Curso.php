@@ -12,4 +12,9 @@ class Curso extends Model
         'titulo',
         'descricao'
     ];
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class, 'curso_id');
+    }
 }

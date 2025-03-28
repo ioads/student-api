@@ -14,4 +14,9 @@ class Aluno extends Model
         'sexo',
         'data_nascimento',
     ];
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class, 'aluno_id');
+    }
 }
