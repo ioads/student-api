@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 interface AlunoRepositoryInterface
 {
-    public function all();
+    public function all($request);
     public function find($id);
     public function create(array $data);
     public function update($id, array $data);

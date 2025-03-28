@@ -18,9 +18,9 @@ class AlunoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->alunoRepository->all();
+        return $this->alunoRepository->all($request);
     }
 
     /**

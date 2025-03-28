@@ -14,9 +14,20 @@ class AlunoRepository implements AlunoRepositoryInterface
         $this->model = $aluno;
     }
 
-    public function all()
+    public function all($request)
     {
-        $alunos = $this->model->all();
+        $alunos = $this->model->query();
+
+        if ($request->has('email')) {
+            $alunos->where('email', 'like', '%' . $request->input('email') . '%');
+        }
+
+        if ($request->has('nome')) {
+            $alunos->where('nome', 'like', '%' . $request->input('nome') . '%');
+        }
+
+        $alunos = $alunos->with('matriculas', 'matriculas.curso')->get();
+
         return response()->json($alunos, 200);
     }
 
