@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAlunoRequest extends FormRequest
+class UpdateCursoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,8 @@ class UpdateAlunoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'string|max:255',
-            'email' => 'email|unique:alunos,email',
-            'sexo' => 'string|in:masculino,feminino,outro',
-            'data_nascimento' => 'date|before:today',
+            'titulo' => 'string|max:255|unique:cursos,titulo',
+            'descricao' => 'string',
         ];
     }
 }
