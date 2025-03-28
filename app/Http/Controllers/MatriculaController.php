@@ -2,24 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use AlunoRepository;
 use Illuminate\Http\Request;
 
-class AlunoController extends Controller
+class MatriculaController extends Controller
 {
-    protected $alunoRepository;
-
-    public function __construct(AlunoRepository $alunoRepository)
-    {
-        $this->alunoRepository = $alunoRepository;
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return $this->alunoRepository->getAll();
+        //
     }
 
     /**
