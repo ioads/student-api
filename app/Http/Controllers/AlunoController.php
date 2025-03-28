@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use AlunoRepository;
+use App\Http\Requests\StoreAlunoRequest;
+use App\Repositories\AlunoRepository;
 use Illuminate\Http\Request;
 
 class AlunoController extends Controller
@@ -19,23 +20,15 @@ class AlunoController extends Controller
      */
     public function index()
     {
-        return $this->alunoRepository->getAll();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $this->alunoRepository->all();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAlunoRequest $request)
     {
-        //
+        return $this->alunoRepository->create($request->all());
     }
 
     /**
@@ -43,15 +36,7 @@ class AlunoController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return $this->alunoRepository->find($id);
     }
 
     /**
@@ -59,7 +44,7 @@ class AlunoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return $this->alunoRepository->update($id, $request->all());
     }
 
     /**
@@ -67,6 +52,6 @@ class AlunoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return $this->alunoRepository->delete($id);
     }
 }

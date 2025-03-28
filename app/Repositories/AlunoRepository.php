@@ -1,18 +1,63 @@
 <?php
 
-use App\Models\Aluno;
+namespace App\Repositories;
 
-class AlunoRepository
+use App\Models\Aluno;
+use App\Repositories\AlunoRepositoryInterface;
+
+class AlunoRepository implements AlunoRepositoryInterface
 {
-    protected $model;
+    protected Aluno $model;
 
     public function __construct(Aluno $aluno)
     {
         $this->model = $aluno;
     }
 
-    public function getAll()
+    public function all()
     {
-        return $this->model->all();
+        $alunos = $this->model->all();
+        return response()->json($alunos, 200);
+    }
+
+    public function find($id)
+    {
+        $aluno = $this->model->find($id);
+        if(!$aluno) {
+            return response()->json(['message' => 'Aluno não encontrado'], 404);
+        }
+
+        return response()->json($aluno, 200);
+    }
+
+    public function create(array $data)
+    {
+        $aluno = $this->model->create($data);
+ 
+        return response()->json($aluno, 201);
+    }
+
+    public function update($id, array $data)
+    {
+        $aluno = $this->model->find($id);
+        if (!$aluno) {
+            return response()->json(['message' => 'Aluno não encontrado'], 404);
+        }
+
+        $aluno->update($data);
+
+        return response()->json($aluno, 200);
+    }
+
+    public function delete($id)
+    {
+        $aluno = $this->model->find($id);
+        if (!$aluno) {
+            return response()->json(['message' => 'Aluno não encontrado'], 404);
+        }
+
+        $aluno->delete();
+
+        return response()->json(['message' => 'Aluno excluído com sucesso'], 200);
     }
 }
